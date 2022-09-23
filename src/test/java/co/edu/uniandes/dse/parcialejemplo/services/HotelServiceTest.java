@@ -49,7 +49,7 @@ public class HotelServiceTest {
     @Test
     void testCreateHotelesInvalido() throws IllegalOperationException {
         HotelEntity newEntity = factory.manufacturePojo(HotelEntity.class);
-        newEntity.setId(121L);
+        entityManager.persist(newEntity);
         HotelEntity result = hotelService.createHoteles(newEntity);
 
         assertThrows(IllegalOperationException.class, () -> {

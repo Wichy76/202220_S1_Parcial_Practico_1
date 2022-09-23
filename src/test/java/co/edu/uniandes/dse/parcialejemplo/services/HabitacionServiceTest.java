@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @Transactional
-@Import(HotelService.class)
+@Import(HabitacionService.class)
 public class HabitacionServiceTest {
     @Autowired
     private HabitacionService habitacionService;
@@ -38,6 +38,8 @@ public class HabitacionServiceTest {
     @Test
     void testCreateHoteles() throws IllegalOperationException {
         HabitacionEntity newEntity = factory.manufacturePojo(HabitacionEntity.class);
+        newEntity.setNumCamas(2);
+        newEntity.setNumPersonas(500);
         HabitacionEntity result = habitacionService.createHabitacion(newEntity);
         assertNotNull(result);
         HabitacionEntity entity = entityManager.find(HabitacionEntity.class, result.getId());
@@ -50,12 +52,12 @@ public class HabitacionServiceTest {
     }
 
     @Test
-    void testCreateHotelesInvalido() throws IllegalOperationException {
-        HotelEntity newEntity = factory.manufacturePojo(HotelEntity.class);
-        newEntity.setId(121L);
-        HotelEntity result = habitacionService.createHoteles(newEntity);
+    void testCreateHabitacionInvalido() throws IllegalOperationException {
+        HabitacionEntity newEntity = factory.manufacturePojo(HabitacionEntity.class);
 
         assertThrows(IllegalOperationException.class, () -> {
+            newEntity.setNumCamas(500);
+            newEntity.setNumPersonas(1);
             habitacionService.createHabitacion(newEntity);
         });
     }
